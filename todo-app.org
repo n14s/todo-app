@@ -1,0 +1,25 @@
+#+TITLE: Todo App
+
+* Why a Todo App
+** Easy existing UI. Can fokus on the dev process and the other technical parts (data handling)
+** Offers knowledge needed for building own fullstack apps, especially CRUD concepts
+
+
+* Architecture
+** Frontend/Web: Svelte
+** Hosting/API: Svelte Kit
+*** Prisma
+** DB: Postgres
+** Deployment (Web): Vercel
+** Deployment (DB): Railway
+** Dev: Gitpod
+
+** Interactions
+*** Svelte - Svelte Kit
+- Svelte Kit exposes APIs
+- Svelte Frontend requests GET /todos to Svelte Kit
+- Svelte Kit responses with JSON
+
+*** Svelte Kit (+Prisma) - Postgres
+- Svelte Kit requests data from Postgres
+- Prisma acts as a translator beween JS objects and SQL commands
