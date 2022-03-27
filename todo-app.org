@@ -23,3 +23,39 @@
 *** Svelte Kit (+Prisma) - Postgres
 - Svelte Kit requests data from Postgres
 - Prisma acts as a translator beween JS objects and SQL commands
+
+* Dev Process
+[[id:b33d4592-6d82-4b38-93a0-d5abadfce1ba][Generell Dev Process documented here]]
+
+** Create issue to add feature
+- Create branch for issue/feature
+- Can use [[id:616143af-d87d-4aaa-a429-5c9377f58c74][Gitpod]]  for an encapsulated environment for issue
+
+** How to run
+*** npm install
+*** npm run dev
+
+* Svelte
+Svelte compiles svelte files into pure javascript. Thus very little overhead and good performance on browserside.
+** Files
+*** package.json
+**** scripts
+**** devDependencies
+- no prod-dependencies for svelte needed, they are just devdependencies since svelte is a compiler that translates the code to js
+*** svelte.config.js
+**** preprocess
+**** kit
+***** adapter
+- where/how to host app: svelte-auto, vercel, cloudflare
+***** target
+- where is app rendered
+*** src/app.html
+**** div id=svelte %svelte.body%
+- this is where index.svelte is rendered into
+*** src/routes/index.svelte
+*** src/routes/otherpage.svelte
+- file based routing (http://dings.de/otherpage)
+- other pages can be created here
+
+*** tsconfig.json
+- is populated by svelte team (remember the option use ts in the beginning ;))
