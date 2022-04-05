@@ -1,0 +1,29 @@
+:root {
+    font-family: 'Courier New', Courier, monospace;
+    --primary-color: #f2c117;
+    --secondary-color: #aaaaa1;
+    --tertiary-color: #2a5c52;
+
+}
+
+body {
+    background-color: var(--primary-color);
+    background: linear-gradient(
+        180deg,
+        var(--primary-color),
+        var(--secondary-color),
+        var(--tertiary-color)
+    );  
+    margin: 0;
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+}
+
+@media (min-width: 720) {
+    h1 {
+        font-size: 2.4rem;
+    }
+}

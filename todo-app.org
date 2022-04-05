@@ -53,9 +53,109 @@ Svelte compiles svelte files into pure javascript. Thus very little overhead and
 **** div id=svelte %svelte.body%
 - this is where index.svelte is rendered into
 *** src/routes/index.svelte
+- index = landing page
+- apply html, js, or css specific for this route, i.o.w. it only applies to this component
 *** src/routes/otherpage.svelte
 - file based routing (http://dings.de/otherpage)
 - other pages can be created here
 
+*** __layout.svelte
+- apply comon html, js or css to all routes, eg. import app.css within script tags
+
+
 *** tsconfig.json
 - is populated by svelte team (remember the option use ts in the beginning ;))
+
+*** styles
+**** src/app.css
+***** :root{}
+- class selector, equivalent to html{}
+- more autority than html: can override html properties even if declared before
+
+* HTML
+* CSS
+** size
+*** em vs rem
+- em: size rel. to parent font size
+- rem: size rel. to root font size
+- default font size of html object is 16
+*** height
+- main goal: let html and body element grow with content
+- mordern technique: only style body to use height: 100vh
+[[cite:&HTMLVsBody2021]]
+*** width
+- either ignore, because defaults to 100%
+- or remove margins and set to 100% afterwards
+** position
+*** margin
+- position or center elements
+- top left bottom right
+- 4rem auto 0 auto, centers the element horizontally with a margin at the top
+** media queries (@media)
+- conditionally apply style
+*** example
+#+begin_src css
+@media (min-width 720) {
+    h1 {
+        font-size: 2.4rem;
+            }
+}
+#+end_src
+
+- if condition width>720, then setting font size of h1 applies
+
+** change upon action
+- only applys css if action is true
+
+#+begin_src css
+my-element:focus-visible {
+    font-color: red
+}
+#+end_src
+
+** selectors
+*** type
+html element type
+#+begin_src css
+<div>
+div { font-color: blue}
+#+end_src
+*** class
+group added to different elements
+#+begin_src css
+<div class="myclass">
+.myclass { font-color: blue}
+#+end_src
+*** id
+specific single element
+#+begin_src css
+<div id="myid">
+#myid { font-color: blue}
+#+end_src
+
+** specifity
+- styles of higher specifity override others
+*** !important
+- high specifity can be overridden with !important style decoration
+
+** sibling/child (+ / >)
+*** sibling selector
+#+begin_src css
+h1 + p {}
+#+end_src
+- applies style to any p that is a direct sibling of h1
+*** child selector
+#+begin_src css
+h1 > p {}
+#+end_src
+- applies style to any p that is a direct child of h1
+** dynamic styling
+- htmls class name can get added dynamically
+- css selector may apply on added class only, thus only activating when class name is added
+ #+begin_src css
+.done .toggle {
+    color: red
+}
+<h1 class="toggle"> or
+<h1 class="done toggle"> after adding done dynamically
+#+end_src
