@@ -159,3 +159,44 @@ h1 > p {}
 <h1 class="toggle"> or
 <h1 class="done toggle"> after adding done dynamically
 #+end_src
+
+* form data (action, method)
+- send data defined in forms from client to server
+- action: where sending data, eg. endpoint "/data.json"
+- method: request method, eg. "get", "post"
+
+* API in Svelte
+** Define route through file/folder name
+- routes/*.svelte default to html website retrieved with get
+- routes/<endpoint>/index.json.ts create endpoint for the <endpoint> folder name
+
+** Create Crud methods
+- create and export arrow/lambda function for get, post, etc
+- return object; else it returns 404 to user
+- use typescript, in this case the imported RequestHandler, to get goodies like autocomplete/suggestions/helpinfo
+
+#+begin_src js
+export const get : RequestHandler = () => {
+    return {
+        status: 200,
+        body: "Hello to API"
+    }
+}
+#+end_src
+
+- use formData as an interface to form, field and values in html, eg. to get the text inserted in text field of form
+#+begin_src js
+export const post : RequestHandler = await ({request}) => {
+    const formData = await request.formData
+    console.log(formData.get(''))
+}
+#+end_src
+
+- ({request}) is object deconstruction. makes nested request field/object usable in function declarion
+
+
+
+** Use 303 (see other) on post request
+- post to an "/<endpoint>" endpoint, would route you to that endpoint upon a 200
+- most of the times you want to stay on the current site
+- use 303 to reroute to current site
