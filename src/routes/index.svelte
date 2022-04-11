@@ -70,8 +70,8 @@
 <form action="/todos.json" method="post" class="new">
     <input type="text" name="text" aria-label="Add a todo" placeholder="+ type to add a todo"  />
 </form>
-    <TodoItem/>
-    <TodoItem/>
-    <TodoItem/>
+{#each todos as todo}
+    <TodoItem todo = { todo }/>
+{/each}
 
 </div>

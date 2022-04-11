@@ -1,3 +1,7 @@
+<script lang="ts">
+    export let todo : Todo;
+</script>
+
 <style>
 .todo {
     display: grid;
@@ -88,7 +92,7 @@ button.toggle {
     <button aria-label="Mark done/not done" class="toggle"></button>
 </form>
 <form action="" method="" class="text">
-    <input type="text"/>
+    <input type="text" value={ todo.text }/>
     <button aria-label="Save todo" class="save"></button>
 </form>
 <form action="" method="">
