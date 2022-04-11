@@ -199,4 +199,69 @@ export const post : RequestHandler = await ({request}) => {
 ** Use 303 (see other) on post request
 - post to an "/<endpoint>" endpoint, would route you to that endpoint upon a 200
 - most of the times you want to stay on the current site
-- use 303 to reroute to current site
+- use status: 303 to redirect to current site, or defined by header: { location: "/"}
+
+
+** variables and scopes
+*** var
+- global scope
+- scope can lead to side effects/bugs
+*** let
+- block scope
+- preferable since js 6
+*** const
+- black scope
+- cannot be updated
+- object fields cant be updated, but object field values can
+
+*** hoisting
+- execution context property: compile phase runs before execution phase
+- compile phase includes declarations, eg: ~var number;~
+- execution phase includes assignments, eg: ~number = 42;~
+- thus the following code behaves:
+#+begin_src js
+function greet() {
+    greeting = "hi";
+    console.log(greeting);
+    var greeting;
+}
+greet(); // hi
+#+end_src
+
+- also works for function declaration
+- hoisted var is assigned undefined, hoisted let, const are not assigned
+
+
+** loops
+*** for in
+- loops over array randomly
+*** for of
+- retains the array order while looping
+*** each (svelte only)
+#+begin_src svelte
+{#each todos as todo}
+console.log(todo)
+{/each}
+#+end_src
+
+** reactivity $:
+- is triggered by assignment of var, eg. count
+- array functions like push dont trigger reactivity
+*** declarations
+#+begin_src js
+count = 0 ;
+$: double = count * 2
+
+count = 5 // double = 10
+#+end_src
+
+- double always updates upon count change
+*** statements
+~$: console.log(count)~
+- statement is triggered upon count change
+
+** Properties in Svelte
+- props are used to pass data between components
+
+~export let count~ defines prop count that can be filled from other component
+count is usually used in the html
