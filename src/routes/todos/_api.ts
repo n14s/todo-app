@@ -4,8 +4,6 @@ export let todos : Todo[] = []
 
 export const api = ( requestEvent : RequestEvent, todo? : Todo) => {
 
-    console.log("api")
-
     let body = {}
     let status = 500
     let request = requestEvent.request
