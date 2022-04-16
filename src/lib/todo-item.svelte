@@ -91,8 +91,8 @@ button.toggle {
     <input type="hidden" name="done" value="" />
     <button aria-label="Mark done/not done" class="toggle"></button>
 </form>
-<form action="" method="" class="text">
-    <input type="text" value={ todo.text }/>
+<form method="POST" action="/todos/{todo.uid}.json?_method=PATCH" class="text">
+    <input type="text" name="text" value={ todo.text }/>
     <button aria-label="Save todo" class="save"></button>
 </form>
 <form method="POST" action="/todos/{todo.uid}.json?_method=DELETE" >

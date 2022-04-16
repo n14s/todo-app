@@ -6,3 +6,8 @@ export const del : RequestHandler = (requestEvent : RequestEvent) => {
     let request = requestEvent.request;
     return api(requestEvent)
 }
+
+export const patch : RequestHandler = async (requestEvent: RequestEvent) => {
+    const formData = await requestEvent.request.formData();
+    return api(requestEvent, {text: formData.get("text")})
+}
