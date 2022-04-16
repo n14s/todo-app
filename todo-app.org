@@ -215,6 +215,11 @@ console.log(res.json())
 - routes with variable path can be create on runtime
 - variable part with bracekts ~[uid].json.ts~
 - can be populated with ~params.~
+
+** method override remove, put, etc
+- remove, etc dont exist as default form request types
+- when defining route in ts use "del" as http verb (delete is reserved in js)
+- define methodOverride in svelte.config.js
 * variables and scopes
 ** var
 - global scope
