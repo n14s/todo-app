@@ -285,4 +285,25 @@ count = 5 // double = 10
 ~export let count~ defines prop count that can be filled from other component
 prop count is then usually used in the html
 
-*
+
+* Typescript
+** handle exceptions to function parameter type
+- some function may need more gerenell objects to be passed
+- use the lowest common denominator object, eg. Record<string, unknown>
+- correct typescripts type errors by casting type with <var> as <type>, eg. todo.text as string
+
+* JS
+** map as match replace
+#+begin_src js
+todos = todos.map(todo => {
+                if (todo.uid === requestEvent.params.uid) {
+                    todo.text = data.text as string
+                }
+            return todo
+            })
+#+end_src
+** filter
+*** rm todos that dont match
+#+begin_src js
+todos = todos.filter( todo => todo.uid !== requestEvent.params.uid)
+#+end_src
