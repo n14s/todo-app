@@ -73,6 +73,8 @@ Svelte compiles svelte files into pure javascript. Thus very little overhead and
 - more autority than html: can override html properties even if declared before
 
 * HTML
+** toggle using forms
+
 * CSS
 ** size
 *** em vs rem
@@ -158,4 +160,158 @@ h1 > p {}
 }
 <h1 class="toggle"> or
 <h1 class="done toggle"> after adding done dynamically
+#+end_src
+
+** set conditional class (svelte)
+- class is conditionally set by reading bool from var
+- ~class:done={todo.done}~
+- it's either set to "done" or to "", toggling the "done" class
+- replaces messy string manipulation ~"class= ... {todo.done ? 'done' : ''}"~
+
+* form data (action, method)
+- send data defined in forms from client to server
+- action: where sending data, eg. endpoint "/data.json"
+- method: request method, eg. "get", "post"
+
+* API in Svelte
+** Define route through file/folder name
+- routes/*.svelte default to html website retrieved with get
+- routes/<endpoint>/index.json.ts create endpoint for the <endpoint> folder name
+
+** Define API: Create Crud methods
+- create and export arrow/lambda function for get, post, etc
+- return object; else it returns 404 to user
+- use typescript, in this case the imported RequestHandler, to get goodies like autocomplete/suggestions/helpinfo
+
+#+begin_src js
+export const get : RequestHandler = () => {
+    return {
+        status: 200,
+        body: "Hello to API"
+    }
+}
+#+end_src
+
+- use formData as an interface to form, field and values in html, eg. to get the text inserted in text field of form
+#+begin_src js
+export const post : RequestHandler = await ({request}) => {
+    const formData = await request.formData
+    console.log(formData.get(''))
+}
+#+end_src
+
+- ({request}) is object deconstruction. makes nested request field/object usable in function declarion
+
+** Call API
+- fetch endpoint
+- use res field/methods for desired behavior
+#+begin_src js
+const res = await fetch(/<endpoint>)
+console.log(res.json())
+#+end_src
+** Use 303 (redirect) on post request
+- post to an "/<endpoint>" endpoint, would route you to that endpoint upon a 200
+- most of the times you want to stay on the current site
+- use status: 303 to redirect to current site, or defined by header: { location: "/"}
+
+** _api helper file
+- share objects on different endpoints by storing it in a helper file
+- place api logic in _api file
+- svelte ignores _<file> in routes (doesnt create site or endpoint)
+
+** route with dynamic path
+- routes with variable path can be create on runtime
+- variable part with bracekts ~[uid].json.ts~
+- can be populated with ~params.~
+
+** method override remove, put, etc
+- remove, etc dont exist as default form request types
+- when defining route in ts use "del" as http verb (delete is reserved in js)
+- define methodOverride in svelte.config.js
+* variables and scopes
+** var
+- global scope
+- scope can lead to side effects/bugs
+** let
+- block scope
+- preferable since js 6
+** const
+- black scope
+- cannot be updated
+- object fields cant be updated, but object field values can
+
+** hoisting
+- execution context property: compile phase runs before execution phase
+-
+ compile phase includes declarations, eg: ~var number;~
+- execution phase includes assignments, eg: ~number = 42;~
+- thus the following code behaves:
+#+begin_src js
+function greet() {
+    greeting = "hi";
+    console.log(greeting);
+    var greeting;
+}
+greet(); // hi
+#+end_src
+
+- also works for function declaration
+- hoisted var is assigned undefined, hoisted let, const are not assigned
+
+
+* loops
+** for in
+- loops over array randomly
+** for of
+- retains the array order while looping
+** each (svelte only)
+#+begin_src svelte
+{#each todos as todo}
+console.log(todo)
+{/each}
+#+end_src
+
+* reactivity $:
+- is triggered by assignment of var, eg. count
+- array functions like push dont trigger reactivity
+** declarations
+#+begin_src js
+count = 0 ;
+$: double = count * 2
+
+count = 5 // double = 10
+#+end_src
+
+- double always updates upon count change
+** statements
+~$: console.log(count)~
+- statement is triggered upon count change
+
+* Properties in Svelte
+- props are used to pass data between components
+
+~export let count~ defines prop count that can be filled from other component
+prop count is then usually used in the html
+
+
+* Typescript
+** handle exceptions to function parameter type
+- some function may need more gerenell objects to be passed
+- use the lowest common denominator object, eg. Record<string, unknown>
+- correct typescripts type errors by casting type with <var> as <type>, eg. todo.text as string
+
+* JS
+** map as match replace
+#+begin_src js
+todos = todos.map(todo => {
+                if (todo.uid === requestEvent.params.uid) {
+                    todo.text = data.text as string
+                }
+            return todo
+            })
+#+end_src
+** filter
+*** rm todos that dont match
+#+begin_src js
+todos = todos.filter( todo => todo.uid !== requestEvent.params.uid)
 #+end_src
