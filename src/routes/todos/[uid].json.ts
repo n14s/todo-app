@@ -9,5 +9,8 @@ export const del : RequestHandler = (requestEvent : RequestEvent) => {
 
 export const patch : RequestHandler = async (requestEvent: RequestEvent) => {
     const formData = await requestEvent.request.formData();
-    return api(requestEvent, {text: formData.get("text")})
+    return api(requestEvent, {
+        text: formData.get("text"), 
+        done : formData.get("done")
+    })
 }
