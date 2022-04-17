@@ -73,6 +73,8 @@ Svelte compiles svelte files into pure javascript. Thus very little overhead and
 - more autority than html: can override html properties even if declared before
 
 * HTML
+** toggle using forms
+
 * CSS
 ** size
 *** em vs rem
@@ -159,6 +161,12 @@ h1 > p {}
 <h1 class="toggle"> or
 <h1 class="done toggle"> after adding done dynamically
 #+end_src
+
+** set conditional class (svelte)
+- class is conditionally set by reading bool from var
+- ~class:done={todo.done}~
+- it's either set to "done" or to "", toggling the "done" class
+- replaces messy string manipulation ~"class= ... {todo.done ? 'done' : ''}"~
 
 * form data (action, method)
 - send data defined in forms from client to server
