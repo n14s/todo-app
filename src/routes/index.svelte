@@ -33,6 +33,17 @@
         todos = [...todos, todo]
         form.reset()
     }
+
+    const processUpdateTodoResult = async (res: Response) => {
+        const updatedTodo = await res.json()
+        todos = todos.map(todo => {
+            if (todo.uid === updatedTodo.uid) {
+                todo = updatedTodo
+            }
+            return todo
+        })
+    }
+
 </script>
 
 <style>
@@ -81,12 +92,12 @@
     <input type="text" name="text" aria-label="Add a todo" placeholder="+ type to add a todo"  />
 </form>
 {#each todos as todo}
-    <TodoItem todo = { todo }/>
     <TodoItem 
     todo = { todo } 
     processDeleteTodoResult = { () => {
         todos = todos.filter(t => t.uid !== todo.uid)
      }} 
+    {processUpdateTodoResult}
     />
 {/each}
 

@@ -1,7 +1,3 @@
-<script lang="ts">
-    export let todo : Todo;
-</script>
-
 <style>
 .todo {
     display: grid;
@@ -87,15 +83,17 @@ button.toggle {
 
     export let todo : Todo;
     export let processDeleteTodoResult : (res: Response) => void
+    export let processUpdateTodoResult : (res: Response) => void
+
 </script>
 
 
 <div class="todo" class:done={todo.done}>
-<form method="POST" action="/todos/{todo.uid}.json?_method=PATCH">
+<form method="POST" action="/todos/{todo.uid}.json?_method=PATCH" use:enhance={{result : processUpdateTodoResult}}>
     <input type="hidden" name="done" value= {todo.done ? "" : "true"} />
     <button aria-label="Mark todo as {todo.done ? 'not done' : 'done' }" class="toggle"></button>
 </form>
-<form method="POST" action="/todos/{todo.uid}.json?_method=PATCH" class="text">
+<form method="POST" action="/todos/{todo.uid}.json?_method=PATCH" class="text" use:enhance={{result : processUpdateTodoResult}}>
     <input type="text" name="text" value={ todo.text }/>
     <button aria-label="Save todo" class="save"></button>
 </form>

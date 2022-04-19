@@ -36,6 +36,7 @@ switch (request.method.toUpperCase()) {
                 }
             return todo
             })
+            body = todos.find(todo => todo.uid === requestEvent.params.uid)
             break;
     }
     if (request.method.toUpperCase() !== "GET" && request.headers.get("accept") !== "application/json") {
