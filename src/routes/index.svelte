@@ -28,7 +28,7 @@
 
     export let todos : Todo[];
 
-    export const processNewTodoResult = async (res: Response, form: HTMLFormElement) => {
+    const processNewTodoResult = async (res: Response, form: HTMLFormElement) => {
         let todo = await res.json()
         todos = [...todos, todo]
         form.reset()
@@ -82,6 +82,12 @@
 </form>
 {#each todos as todo}
     <TodoItem todo = { todo }/>
+    <TodoItem 
+    todo = { todo } 
+    processDeleteTodoResult = { () => {
+        todos = todos.filter(t => t.uid !== todo.uid)
+     }} 
+    />
 {/each}
 
 </div>
