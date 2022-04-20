@@ -1,7 +1,3 @@
-<script lang="ts">
-    export let todo : Todo;
-</script>
-
 <style>
 .todo {
     display: grid;
@@ -80,21 +76,28 @@ button.toggle {
 .done .toggle {
     background-image: url("data:image/svg+xml,%3Csvg width='22' height='16' viewBox='0 0 22 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20.5 1.5L7.4375 14.5L1.5 8.5909' stroke='%23676778' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); 
 } 
-
-
-
 </style>
 
+<script lang="ts">
+    import {enhance} from "$lib/actions/forms"
+
+    export let todo : Todo;
+    export let processDeleteTodoResult : (res: Response) => void
+    export let processUpdateTodoResult : (res: Response) => void
+
+</script>
+
+
 <div class="todo" class:done={todo.done}>
-<form method="POST" action="/todos/{todo.uid}.json?_method=PATCH">
+<form method="POST" action="/todos/{todo.uid}.json?_method=PATCH" use:enhance={{result : processUpdateTodoResult}}>
     <input type="hidden" name="done" value= {todo.done ? "" : "true"} />
     <button aria-label="Mark todo as {todo.done ? 'not done' : 'done' }" class="toggle"></button>
 </form>
-<form method="POST" action="/todos/{todo.uid}.json?_method=PATCH" class="text">
+<form method="POST" action="/todos/{todo.uid}.json?_method=PATCH" class="text" use:enhance={{result : processUpdateTodoResult}}>
     <input type="text" name="text" value={ todo.text }/>
     <button aria-label="Save todo" class="save"></button>
 </form>
-<form method="POST" action="/todos/{todo.uid}.json?_method=DELETE" >
+<form method="POST" action="/todos/{todo.uid}.json?_method=DELETE" use:enhance={{result: processDeleteTodoResult}}>
     <button aria-label="Delete todo" class="delete"></button>
 </form>
 </div>

@@ -6,12 +6,12 @@ export const get : RequestHandler = async (requestEvent) => { return api(request
 export const post : RequestHandler = async (requestEvent) => {
 
 
-    const formData = await requestEvent.request.formData();
+    const body = await requestEvent.request.formData();
 
     let todo : Todo = {
         uid : `${Date.now()}`, // TODO: use uid from db
         created_at : new Date(),
-        text : formData.get('text') as string,
+        text : body.get('text') as string,
         done : false
     }
 

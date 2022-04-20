@@ -7,8 +7,7 @@ export const api = ( requestEvent : RequestEvent, data? : Record<string, unknown
     let body = {}
     let status = 500
     let request = requestEvent.request
-
-    switch (request.method.toUpperCase()) {
+switch (request.method.toUpperCase()) {
         case "GET":
             status = 200;
             body = todos;
@@ -37,10 +36,10 @@ export const api = ( requestEvent : RequestEvent, data? : Record<string, unknown
                 }
             return todo
             })
+            body = todos.find(todo => todo.uid === requestEvent.params.uid)
             break;
     }
-
-    if (request.method.toUpperCase() != "GET") {
+    if (request.method.toUpperCase() !== "GET" && request.headers.get("accept") !== "application/json") {
         return {
             status : 303,
             headers : {

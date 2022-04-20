@@ -24,6 +24,21 @@
 - Svelte Kit requests data from Postgres
 - Prisma acts as a translator beween JS objects and SQL commands
 
+* Generel Web Dev
+** Make Website work HTML-only and javascript enhanced
+- html-only is backwards compatible, not needing performant hardware
+- javascript enhaces user experience, eg. forms with ajax (for those who have js activated in browser)
+*** Replace html form redirect to page refresh with ajax request
+**** Svelte actions
+- path: src/lib/actions/forms.ts
+- create action funtions in forms.ts, eg. enhance
+- import ~<action-function>~ in svelte script
+- activate on element with ~use:<action-function>~
+***** Communication between .svelte and action-function
+- reference to that element (eg form) is then created for the action-function
+- other references can be passed to the action-function , eg. for a dynamic process on the website without reload
+  - in .svelte add: ~use:a-f{{<function-var> : <function-name> }}~
+  - in action-function add: ~export const a-f = (form:... , {<function-var>}) => {}~
 * Dev Process
 [[id:b33d4592-6d82-4b38-93a0-d5abadfce1ba][Generell Dev Process documented here]]
 
