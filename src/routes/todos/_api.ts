@@ -1,9 +1,9 @@
 import type { RequestEvent } from "@sveltejs/kit/types/private";
 import PrismaClient from "$lib/prisma"
 
-export let todos : Todo[] = []
+const prisma = new PrismaClient();
 
-export const api = ( requestEvent : RequestEvent, data? : Record<string, unknown>) => {
+export const api = async ( requestEvent : RequestEvent, data? : Record<string, unknown>) => {
     let body = {}
     let status = 500
     let request = requestEvent.request
@@ -11,33 +11,40 @@ export const api = ( requestEvent : RequestEvent, data? : Record<string, unknown
     switch (request.method.toUpperCase()) {
         case "GET":
             status = 200;
-            body = todos;
+            body = await prisma.todo.findMany();
             break;
 
         case "POST":
-            todos.push(data as Todo);
+            body = await prisma.todo.create({
+                data: {
+                    created_at: data.created_at as Date,
+                    text: data.text as string,
+                    done: data.done as boolean,
+                }
+            })
             status = 201;
-            body = data as Todo;
             break;
 
         case "DELETE":
             status = 200;
-            todos = todos.filter( todo => todo.uid !== requestEvent.params.uid)
+            body = await prisma.todo.delete({
+                where: {
+                    uid: requestEvent.params.uid
+                }
+            })
             break;
 
         case "PATCH":
             status = 200;
-            todos = todos.map(todo => {
-                if (todo.uid === requestEvent.params.uid) {
-                    if (data.text == undefined) {
-                        todo.done = data.done as boolean
-                    } else {
-                        todo.text = data.text as string
-                    }
+            body = await prisma.todo.update({
+                where: {
+                    uid: requestEvent.params.uid
+                },
+                data: {
+                    done: data.done,
+                    text: data.text
                 }
-            return todo
             })
-            body = todos.find(todo => todo.uid === requestEvent.params.uid)
             break;
     }
 
