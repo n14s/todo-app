@@ -36,15 +36,25 @@ export const api = async ( requestEvent : RequestEvent, data? : Record<string, u
 
         case "PATCH":
             status = 200;
-            body = await prisma.todo.update({
-                where: {
-                    uid: requestEvent.params.uid
-                },
-                data: {
-                    done: data.done,
-                    text: data.text
-                }
-            })
+            if (data.text === null ) {
+                body = await prisma.todo.update({
+                    where: {
+                        uid: requestEvent.params.uid
+                    },
+                    data: {
+                        done: data.done
+                    }
+                })
+            } else {
+                body = await prisma.todo.update({
+                    where: {
+                        uid: requestEvent.params.uid
+                    },
+                    data: {
+                        text: data.text
+                    }
+                })
+            }
             break;
     }
 
