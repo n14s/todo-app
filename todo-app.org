@@ -315,6 +315,9 @@ prop count is then usually used in the html
 - use the lowest common denominator object, eg. Record<string, unknown>
 - correct typescripts type errors by casting type with <var> as <type>, eg. todo.text as string
 
+** ts use type assertion instead of type casting
+- using ts types and syntax like ~done = body.done as boolean~ is used to assert the type to conform ts typechecker
+- variables contain no implicit type like static typed language
 * JS
 ** map as match replace
 #+begin_src js
@@ -330,3 +333,6 @@ todos = todos.map(todo => {
 #+begin_src js
 todos = todos.filter( todo => todo.uid !== requestEvent.params.uid)
 #+end_src
+
+** cast string to bool
+var isTrueSet = (myValue === 'true')

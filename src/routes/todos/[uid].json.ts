@@ -11,6 +11,6 @@ export const patch : RequestHandler = async (requestEvent: RequestEvent) => {
     const formData = await requestEvent.request.formData();
     return api(requestEvent, {
         text: formData.get("text"), 
-        done : formData.get("done")
+        done : formData.has("done") ? formData.get("done") === "true" : undefined
     })
 }
