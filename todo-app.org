@@ -336,3 +336,21 @@ todos = todos.filter( todo => todo.uid !== requestEvent.params.uid)
 
 ** cast string to bool
 var isTrueSet = (myValue === 'true')
+
+* Refactor 1: Use Python FastAPI Backend with Python Prisma Client
+** Test Driven Approach for Python Parts
+*** Resources
+**** TDD
+https://testdriven.io/blog/fastapi-crud/
+https://www.jeffastor.com/blog/testing-fastapi-endpoints-with-docker-and-pytest
+https://www.fastapitutorial.com/blog/unit-testing-in-fastapi/
+https://github.com/akhsiM/tdd-fastapi-docker#heroku=
+**** Unit Testing
+https://medium.com/fastapi-tutorials/testing-fastapi-endpoints-f7e78f09b7b6
+** Integrate Prisma
+*** Resources
+https://example.com/getting_started/setup/
+https://github.com/RobertCraigie/prisma-client-py/tree/main/examples/fastapi-basic
+** Other projects for orientation
+https://github.com/pkruszynski/sveltekit-fastapi-docker-compose
+https://github.com/heliumbrain/fastapi-piccolo
