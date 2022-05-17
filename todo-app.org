@@ -344,13 +344,43 @@ var isTrueSet = (myValue === 'true')
 https://testdriven.io/blog/fastapi-crud/
 https://www.jeffastor.com/blog/testing-fastapi-endpoints-with-docker-and-pytest
 https://www.fastapitutorial.com/blog/unit-testing-in-fastapi/
-https://github.com/akhsiM/tdd-fastapi-docker#heroku=
+https://github.com/akhsiM/tdd-fastapi-docker
 **** Unit Testing
 https://medium.com/fastapi-tutorials/testing-fastapi-endpoints-f7e78f09b7b6
 ** Integrate Prisma
 *** Resources
-https://example.com/getting_started/setup/
 https://github.com/RobertCraigie/prisma-client-py/tree/main/examples/fastapi-basic
+other site
 ** Other projects for orientation
 https://github.com/pkruszynski/sveltekit-fastapi-docker-compose
 https://github.com/heliumbrain/fastapi-piccolo
+
+** Project Structure
+*** Dividing Frontend and backend
+*** FastApi Project Structure
+**** tree
+your_project
+├── __init__.py
+├── main.py
+├── core
+│   ├── models
+│   │   ├── database.py
+│   │   └── __init__.py
+│   ├── schemas
+│   │   ├── __init__.py
+│   │   └── schema.py
+│   └── settings.py
+├── tests
+│   ├── __init__.py
+│   └── v1
+│       ├── __init__.py
+│       └── test_v1.py
+└── v1
+    ├── api.py
+    ├── endpoints
+    │   ├── endpoint.py
+    │   └── __init__.py
+    └── __init__.py
+
+**** source
+https://stackoverflow.com/questions/64943693/what-are-the-best-practices-for-structuring-a-fastapi-project
