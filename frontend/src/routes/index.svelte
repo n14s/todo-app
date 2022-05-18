@@ -4,7 +4,7 @@
 
 
     export const load: Load = async ({fetch}) => {
-        const res = await fetch("/todos.json")
+        const res = await fetch("http://127.0.0.1:8000/todo")
     
         if (res.ok) {
             const todos = await res.json()
