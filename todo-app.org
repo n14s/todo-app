@@ -1,9 +1,7 @@
 #+TITLE: Todo App
-
 * Why a Todo App
 ** Easy existing UI. Can fokus on the dev process and the other technical parts (data handling)
 ** Offers knowledge needed for building own fullstack apps, especially CRUD concepts
-
 
 * Architecture
 ** Frontend/Web: Svelte
@@ -25,6 +23,16 @@
 - Prisma acts as a translator beween JS objects and SQL commands
 
 * Generel Web Dev
+** Dev Process
+[[id:b33d4592-6d82-4b38-93a0-d5abadfce1ba][Generell Dev Process documented here]]
+*** Create issue to add feature
+- Create branch for issue/feature
+- Can use [[id:616143af-d87d-4aaa-a429-5c9377f58c74][Gitpod]]  for an encapsulated environment for issue
+
+*** How to run
+**** npm install
+**** npm run dev
+
 ** Make Website work HTML-only and javascript enhanced
 - html-only is backwards compatible, not needing performant hardware
 - javascript enhaces user experience, eg. forms with ajax (for those who have js activated in browser)
@@ -39,17 +47,6 @@
 - other references can be passed to the action-function , eg. for a dynamic process on the website without reload
   - in .svelte add: ~use:a-f{{<function-var> : <function-name> }}~
   - in action-function add: ~export const a-f = (form:... , {<function-var>}) => {}~
-* Dev Process
-[[id:b33d4592-6d82-4b38-93a0-d5abadfce1ba][Generell Dev Process documented here]]
-
-** Create issue to add feature
-- Create branch for issue/feature
-- Can use [[id:616143af-d87d-4aaa-a429-5c9377f58c74][Gitpod]]  for an encapsulated environment for issue
-
-** How to run
-*** npm install
-*** npm run dev
-
 * Svelte
 Svelte compiles svelte files into pure javascript. Thus very little overhead and good performance on browserside.
 ** Files
@@ -87,8 +84,74 @@ Svelte compiles svelte files into pure javascript. Thus very little overhead and
 - class selector, equivalent to html{}
 - more autority than html: can override html properties even if declared before
 
+** API in Svelte
+*** Define route through file/folder name
+- routes/*.svelte default to html website retrieved with get
+- routes/<endpoint>/index.json.ts create endpoint for the <endpoint> folder name
+
+*** Define API: Create Crud methods
+- create and export arrow/lambda function for get, post, etc
+- return object; else it returns 404 to user
+- use typescript, in this case the imported RequestHandler, to get goodies like autocomplete/suggestions/helpinfo
+
+#+begin_src js
+export const get : RequestHandler = () => {
+    return {
+        status: 200,
+        body: "Hello to API"
+    }
+}
+#+end_src
+
+- use formData as an interface to form, field and values in html, eg. to get the text inserted in text field of form
+#+begin_src js
+export const post : RequestHandler = await ({request}) => {
+    const formData = await request.formData
+    console.log(formData.get(''))
+}
+#+end_src
+
+- ({request}) is object deconstruction. makes nested request field/object usable in function declarion
+
+*** Call API
+- fetch endpoint
+- use res field/methods for desired behavior
+#+begin_src js
+const res = await fetch(/<endpoint>)
+console.log(res.json())
+#+end_src
+*** Use 303 (redirect) on post request
+- post to an "/<endpoint>" endpoint, would route you to that endpoint upon a 200
+- most of the times you want to stay on the current site
+- use status: 303 to redirect to current site, or defined by header: { location: "/"}
+
+*** _api helper file
+- share objects on different endpoints by storing it in a helper file
+- place api logic in _api file
+- svelte ignores _<file> in routes (doesnt create site or endpoint)
+
+*** route with dynamic path
+- routes with variable path can be create on runtime
+- variable part with bracekts ~[uid].json.ts~
+- can be populated with ~params.~
+
+*** method override remove, put, etc
+- remove, etc dont exist as default form request types
+- when defining route in ts use "del" as http verb (delete is reserved in js)
+- define methodOverride in svelte.config.js
+** Properties in Svelte
+- props are used to pass data between components
+
+~export let count~ defines prop count that can be filled from other component
+prop count is then usually used in the html
+
 * HTML
 ** toggle using forms
+
+** form data (action, method)
+- send data defined in forms from client to server
+- action: where sending data, eg. endpoint "/data.json"
+- method: request method, eg. "get", "post"
 
 * CSS
 ** size
@@ -183,141 +246,6 @@ h1 > p {}
 - it's either set to "done" or to "", toggling the "done" class
 - replaces messy string manipulation ~"class= ... {todo.done ? 'done' : ''}"~
 
-* form data (action, method)
-- send data defined in forms from client to server
-- action: where sending data, eg. endpoint "/data.json"
-- method: request method, eg. "get", "post"
-
-* API in Svelte
-** Define route through file/folder name
-- routes/*.svelte default to html website retrieved with get
-- routes/<endpoint>/index.json.ts create endpoint for the <endpoint> folder name
-
-** Define API: Create Crud methods
-- create and export arrow/lambda function for get, post, etc
-- return object; else it returns 404 to user
-- use typescript, in this case the imported RequestHandler, to get goodies like autocomplete/suggestions/helpinfo
-
-#+begin_src js
-export const get : RequestHandler = () => {
-    return {
-        status: 200,
-        body: "Hello to API"
-    }
-}
-#+end_src
-
-- use formData as an interface to form, field and values in html, eg. to get the text inserted in text field of form
-#+begin_src js
-export const post : RequestHandler = await ({request}) => {
-    const formData = await request.formData
-    console.log(formData.get(''))
-}
-#+end_src
-
-- ({request}) is object deconstruction. makes nested request field/object usable in function declarion
-
-** Call API
-- fetch endpoint
-- use res field/methods for desired behavior
-#+begin_src js
-const res = await fetch(/<endpoint>)
-console.log(res.json())
-#+end_src
-** Use 303 (redirect) on post request
-- post to an "/<endpoint>" endpoint, would route you to that endpoint upon a 200
-- most of the times you want to stay on the current site
-- use status: 303 to redirect to current site, or defined by header: { location: "/"}
-
-** _api helper file
-- share objects on different endpoints by storing it in a helper file
-- place api logic in _api file
-- svelte ignores _<file> in routes (doesnt create site or endpoint)
-
-** route with dynamic path
-- routes with variable path can be create on runtime
-- variable part with bracekts ~[uid].json.ts~
-- can be populated with ~params.~
-
-** method override remove, put, etc
-- remove, etc dont exist as default form request types
-- when defining route in ts use "del" as http verb (delete is reserved in js)
-- define methodOverride in svelte.config.js
-* variables and scopes
-** var
-- global scope
-- scope can lead to side effects/bugs
-** let
-- block scope
-- preferable since js 6
-** const
-- black scope
-- cannot be updated
-- object fields cant be updated, but object field values can
-
-** hoisting
-- execution context property: compile phase runs before execution phase
--
- compile phase includes declarations, eg: ~var number;~
-- execution phase includes assignments, eg: ~number = 42;~
-- thus the following code behaves:
-#+begin_src js
-function greet() {
-    greeting = "hi";
-    console.log(greeting);
-    var greeting;
-}
-greet(); // hi
-#+end_src
-
-- also works for function declaration
-- hoisted var is assigned undefined, hoisted let, const are not assigned
-
-
-* loops
-** for in
-- loops over array randomly
-** for of
-- retains the array order while looping
-** each (svelte only)
-#+begin_src svelte
-{#each todos as todo}
-console.log(todo)
-{/each}
-#+end_src
-
-* reactivity $:
-- is triggered by assignment of var, eg. count
-- array functions like push dont trigger reactivity
-** declarations
-#+begin_src js
-count = 0 ;
-$: double = count * 2
-
-count = 5 // double = 10
-#+end_src
-
-- double always updates upon count change
-** statements
-~$: console.log(count)~
-- statement is triggered upon count change
-
-* Properties in Svelte
-- props are used to pass data between components
-
-~export let count~ defines prop count that can be filled from other component
-prop count is then usually used in the html
-
-
-* Typescript
-** handle exceptions to function parameter type
-- some function may need more gerenell objects to be passed
-- use the lowest common denominator object, eg. Record<string, unknown>
-- correct typescripts type errors by casting type with <var> as <type>, eg. todo.text as string
-
-** ts use type assertion instead of type casting
-- using ts types and syntax like ~done = body.done as boolean~ is used to assert the type to conform ts typechecker
-- variables contain no implicit type like static typed language
 * JS
 ** map as match replace
 #+begin_src js
@@ -337,6 +265,73 @@ todos = todos.filter( todo => todo.uid !== requestEvent.params.uid)
 ** cast string to bool
 var isTrueSet = (myValue === 'true')
 
+** variables and scopes
+*** var
+- global scope
+- scope can lead to side effects/bugs
+*** let
+- block scope
+- preferable since js 6
+*** const
+- black scope
+- cannot be updated
+- object fields cant be updated, but object field values can
+
+*** hoisting
+- execution context property: compile phase runs before execution phase
+-
+ compile phase includes declarations, eg: ~var number;~
+- execution phase includes assignments, eg: ~number = 42;~
+- thus the following code behaves:
+#+begin_src js
+function greet() {
+    greeting = "hi";
+    console.log(greeting);
+    var greeting;
+}
+greet(); // hi
+#+end_src
+
+- also works for function declaration
+- hoisted var is assigned undefined, hoisted let, const are not assigned
+
+** loops
+*** for in
+- loops over array randomly
+*** for of
+- retains the array order while looping
+*** each (svelte only)
+#+begin_src svelte
+{#each todos as todo}
+console.log(todo)
+{/each}
+#+end_src
+
+** reactivity $:
+- is triggered by assignment of var, eg. count
+- array functions like push dont trigger reactivity
+*** declarations
+#+begin_src js
+count = 0 ;
+$: double = count * 2
+
+count = 5 // double = 10
+#+end_src
+
+- double always updates upon count change
+*** statements
+~$: console.log(count)~
+- statement is triggered upon count change
+
+** Typescript
+*** handle exceptions to function parameter type
+- some function may need more gerenell objects to be passed
+- use the lowest common denominator object, eg. Record<string, unknown>
+- correct typescripts type errors by casting type with <var> as <type>, eg. todo.text as string
+
+*** ts use type assertion instead of type casting
+- using ts types and syntax like ~done = body.done as boolean~ is used to assert the type to conform ts typechecker
+- variables contain no implicit type like static typed language
 * Refactor 1: Use Python FastAPI Backend with Python Prisma Client
 ** Test Driven Approach for Python Parts
 *** Resources
@@ -384,3 +379,42 @@ your_project
 
 **** source
 https://stackoverflow.com/questions/64943693/what-are-the-best-practices-for-structuring-a-fastapi-project
+
+** Methods
+*** Use multiple schemes to support all needed request bodys of CRUD operations
+if different CRUD operations require different bodys, schemes can be added accordingly
+
+pydantic model classes can use inheritance to mitigate code duplication
+
+use ~bigObject(**small_object.dict(), missing_val="foo")~ to initiate bigger objects using the fields of smaller object with additional parameters
+
+**** applied to todos
+***** variant 1: base
+todoBase: (used as in)
+text
+
+todoDB(todoBase) (used for db)
+text
+...
+...
+
+***** variant 2: no base
+todoIn:
+text
+
+todoDB: (before prisma)
+text
+created_at
+done
+
+todoOut:
+text
+created_at
+done
+id
+
+**** source
+https://github.com/tiangolo/full-stack-fastapi-postgresql/blob/master/%7B%7Bcookiecutter.project_slug%7D%7D/backend/app/app/schemas/user.py
+
+https://stackoverflow.com/questions/59920126/rest-api-in-python-with-fastapi-and-pydantic-read-only-property-in-model
+
