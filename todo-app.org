@@ -84,6 +84,9 @@ Svelte compiles svelte files into pure javascript. Thus very little overhead and
 - class selector, equivalent to html{}
 - more autority than html: can override html properties even if declared before
 
+** Easy animations
+Add animation annotation to element, eg. scale or fade
+https://www.twilio.com/blog/all-you-need-to-know-svelte
 ** API in Svelte
 *** Define route through file/folder name
 - routes/*.svelte default to html website retrieved with get
@@ -417,4 +420,26 @@ id
 https://github.com/tiangolo/full-stack-fastapi-postgresql/blob/master/%7B%7Bcookiecutter.project_slug%7D%7D/backend/app/app/schemas/user.py
 
 https://stackoverflow.com/questions/59920126/rest-api-in-python-with-fastapi-and-pydantic-read-only-property-in-model
+
+*** Body vs Field vs query vs path
+https://stackoverflow.com/questions/64932222/when-where-to-use-body-path-query-field-in-fastapi
+
+*** Replace default form post for json post instead
+- add event handler to submit of form, using its id
+- prevent default submit procedure
+- post as json instead
+
+- svelte offers ~on:submit={myHandler}~ directive for a short addition of handler
+- svelte also offers ~|~ character to add modifiers
+- modifier ~on:submit|preventDefault={handleSubmit}~ suppresses default event and adds custom event handler
+
+- additionally ~event.stopImmediatePropagation()~ needed to prevent POST request with form object
+**** Source
+https://simonplend.com/?p=152
+https://dev.to/amjadmh73/submit-html-forms-to-json-apis-easily-137l
+
+https://svelte.dev/docs#template-syntax-element-directives-on-eventname=
+
+https://www.twilio.com/blog/all-you-need-to-know-svelte
+
 
