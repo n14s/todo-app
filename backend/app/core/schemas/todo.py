@@ -14,4 +14,4 @@ class TodoDB (TodoBase):
 class TodoOut (TodoBase):
     created_at: datetime
     done: bool
-    id: str
+    uid: str
