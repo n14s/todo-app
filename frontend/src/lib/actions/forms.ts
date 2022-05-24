@@ -6,14 +6,11 @@ export let enhance = (form : HTMLFormElement, {
         event.preventDefault()
 
         try {
+            const url = form.action
             const body = new FormData(form)
-            const res = await fetch(form.action, {
-                method: form.method,
-                headers: {
-                    accept: "application/json"
-                },
-                body: body
-            })
+
+            const res = await postFormDataAsJson({ url, body });
+
             if (res.ok) {
                 result(res, form);
             } else {
@@ -25,20 +22,31 @@ export let enhance = (form : HTMLFormElement, {
         }
 
     }
-
-
     console.log("add handle submit")
     form.addEventListener("submit", handleSubmit)
-
-    // const formdata = await requestEvent.request.formData() 
-
-    // await fetch()
 
     return {
         destroy() {
             form.removeEventListener("submit", handleSubmit)
-
             console.log("destroy handle")
         }
     }
 }
+
+const postFormDataAsJson = async ({url, body}) => {
+        const plainFormData = Object.fromEntries(body.entries());
+        const formDataJsonString = JSON.stringify(plainFormData);	
+
+        const fetchOptions = {
+            method : "POST",
+            headers : {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: formDataJsonString,
+        }
+
+        const response = await fetch(url, fetchOptions)
+
+        return response
+    }

@@ -43,53 +43,6 @@
             return todo
         })
     }
-
-    const handleSubmitPost = async (e: SubmitEvent) => {
-        console.log("handle submit post")
-        const form = e.currentTarget as HTMLFormElement
-        console.log(form.method)
-        console.log(form.action)
-        console.log(form.text.value)
-
-        const url = form.action
-
-        e.stopImmediatePropagation()
-        try {
-            const formData = new FormData(form)
-
-    		const responseData = await postFormDataAsJson({ url, formData });
-
-            console.log({ responseData });
-
-	    } catch (error) {
-            console.log("error passiert")
-    		console.error(error);
-        }
-	}
-
-    const postFormDataAsJson = async ({url, formData}) => {
-        const plainFormData = Object.fromEntries(formData.entries());
-        const formDataJsonString = JSON.stringify(plainFormData);	
-
-        const fetchOptions = {
-            method : "POST",
-            headers : {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Access-Control-Allow-Origin": "http://localhost:8000/todo"
-            },
-            body: formDataJsonString,
-        }
-
-        const response = await fetch(url, fetchOptions)
-
-        if (!response.ok) {
-            const errorMessage = await response.text()
-            throw new Error(errorMessage)
-        }
-
-        return response.json()
-    }
 </script>
 
 <style>
@@ -134,7 +87,7 @@
 
 <a href="/about-us">about-us</a>
 
-<form on:submit|preventDefault={handleSubmitPost} action="http://127.0.0.1:8000/todo" method="post" class="new" use:enhance={{result: processNewTodoResult}}>
+<form action="http://127.0.0.1:8000/todo" method="post" class="new" use:enhance={{result: processNewTodoResult}}>
     <input type="text" name="text" aria-label="Add a todo" placeholder="+ type to add a todo"  />
 </form>
 {#each todos as todo}
