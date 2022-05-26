@@ -20,3 +20,6 @@ async def postTodo(todo_in: TodoIn):
     todos.append(new_todo)
     return TodoOut(**new_todo.as_dict())
 
+@router.delete("/", status_code=200, response_model=TodoOut, response_description="todo deleted")
+async def deleteTodo(todo_in: TodoIn):
+    pass
