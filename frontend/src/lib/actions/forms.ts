@@ -6,10 +6,7 @@ export let enhance = (form : HTMLFormElement, {
         event.preventDefault()
 
         try {
-            const url = form.action
-            const body = new FormData(form)
-
-            const res = await postFormDataAsJson({ url, body });
+            const res = await fetchFormDataAsJson( form );
 
             if (res.ok) {
                 result(res, form);
@@ -33,12 +30,15 @@ export let enhance = (form : HTMLFormElement, {
     }
 }
 
-const postFormDataAsJson = async ({url, body}) => {
+const fetchFormDataAsJson = async ( form : HTMLFormElement ) => {
+        const url = form.action
+        const body = new FormData(form)
+
         const plainFormData = Object.fromEntries(body.entries());
         const formDataJsonString = JSON.stringify(plainFormData);	
 
         const fetchOptions = {
-            method : "POST",
+            method : form.method,
             headers : {
                 "Content-Type": "application/json",
                 "Accept": "application/json"

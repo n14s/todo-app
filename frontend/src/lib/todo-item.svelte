@@ -89,15 +89,15 @@ button.toggle {
 
 
 <div class="todo" class:done={todo.done}>
-<form method="POST" action="/todos/{todo.uid}.json?_method=PATCH" use:enhance={{result : processUpdateTodoResult}}>
+<form method="POST" action="http://127.0.0.1:8000/todo?_method=PATCH" use:enhance={{result : processUpdateTodoResult}}>
     <input type="hidden" name="done" value= {todo.done ? "" : "true"} />
     <button aria-label="Mark todo as {todo.done ? 'not done' : 'done' }" class="toggle"></button>
 </form>
-<form method="POST" action="/todos/{todo.uid}.json?_method=PATCH" class="text" use:enhance={{result : processUpdateTodoResult}}>
+<form method="POST" action="http://127.0.0.1:8000/todo?_method=PATCH" class="text" use:enhance={{result : processUpdateTodoResult}}>
     <input type="text" name="text" value={ todo.text }/>
     <button aria-label="Save todo" class="save"></button>
 </form>
-<form method="POST" action="/todos/{todo.uid}.json?_method=DELETE" use:enhance={{result: processDeleteTodoResult}}>
+<form method="POST" action="http://127.0.0.1:8000/todo?_method=DELETE" use:enhance={{result: processDeleteTodoResult}}>
     <button aria-label="Delete todo" class="delete"></button>
 </form>
 </div>
