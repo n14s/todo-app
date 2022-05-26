@@ -443,3 +443,18 @@ https://svelte.dev/docs#template-syntax-element-directives-on-eventname=
 https://www.twilio.com/blog/all-you-need-to-know-svelte
 
 
+
+** NoJS vs Enhance
+*** Enhance
+- usually default
+- 2 advantages regarding costumability
+  - allows changing request data from form data to json, which is important for backend
+  - allows adjust request method through fetch
+**** How can correct method be invoked
+- method override doesnt work
+- maybe parse correct method manually through action query parameter
+*** NoJS
+- would be cool to support as well
+**** DONE Check if fastapi backend can accept form by passing it as a different argument
+- seems not be compatible with pydantic
+CLOSED: [2022-05-26 Do 16:17]
