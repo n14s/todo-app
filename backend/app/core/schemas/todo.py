@@ -10,6 +10,10 @@ class TodoDel(BaseModel):
 class TodoIn (TodoBase):
     pass
 
+class TodoPatch (TodoBase):
+    done: bool
+    uid: str
+
 class TodoDB (TodoBase):
     created_at: datetime
     done: bool

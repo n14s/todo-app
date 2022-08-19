@@ -511,3 +511,5 @@ CLOSED: [2022-05-26 Do 16:17]
 
 ** Next
 *** DONE Adjust Delete endpoint in backend
+*** TODO Add Patch
+**** TODO Fix missing instant checkmark when clicking done

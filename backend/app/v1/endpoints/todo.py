@@ -2,7 +2,7 @@ from typing import Any, Dict, List, Union
 from fastapi import APIRouter, Body
 from fastapi.encoders import jsonable_encoder
 from app.core.models.todo import Todo
-from app.core.schemas.todo import TodoIn, TodoOut, TodoDel
+from app.core.schemas.todo import TodoIn, TodoOut, TodoDel, TodoPatch
 
 todos = [Todo("plant tree"), Todo("sleep")]
 
@@ -24,3 +24,14 @@ async def deleteTodo(todo_del: TodoDel):
         if (todo.uid == todo_del.uid):
             deleted_todo = todos.pop(todos.index(todo))
     return TodoOut(**deleted_todo.as_dict())
+
+@router.patch("/", status_code=200, response_model=TodoOut, response_description="todo updated")
+async def updateTodo(todo_patch: TodoPatch):
+    for todo in todos:
+        if (todo.uid == todo_patch.uid):
+            if (todo_patch.text == ""):
+                todo.done = todo_patch.done
+            else:
+                todo.text = todo_patch.text
+    return TodoOut(**todo.as_dict())
+
