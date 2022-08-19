@@ -21,6 +21,9 @@ export const api = async (requestEvent: RequestEvent, data?: Record<string, unkn
             case "DELETE":
                 bodystring = JSON.stringify({"uid": requestEvent.params.uid})
                 break
+            case "PATCH":
+                data["uid"]=requestEvent.params.uid
+                bodystring = JSON.stringify(data) 
         }
 
     const fetchOptions = {
