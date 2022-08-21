@@ -387,6 +387,7 @@ https://medium.com/fastapi-tutorials/testing-fastapi-endpoints-f7e78f09b7b6
 ** Integrate Prisma
 *** Resources
 https://github.com/RobertCraigie/prisma-client-py/tree/main/examples/fastapi-basic
+
 other site
 ** Other projects for orientation
 https://github.com/pkruszynski/sveltekit-fastapi-docker-compose
@@ -507,3 +508,6 @@ CLOSED: [2022-05-26 Do 16:17]
 **** empty data in api.ts
 - no data can be seen when debugging
 **** requests method not translated in svelte
+
+** Next
+*** DONE Adjust Delete endpoint in backend
