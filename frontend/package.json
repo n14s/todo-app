@@ -4,6 +4,7 @@
   "scripts": {
     "pre-dev": "prisma migrate dev",
     "dev": "svelte-kit dev",
+    "debugger": "NODE_OPTIONS=\"--inspect\" svelte-kit dev",
     "build": "svelte-kit build",
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
