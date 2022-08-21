@@ -11,7 +11,6 @@
 ** Deployment (Web): Vercel
 ** Deployment (DB): Railway
 ** Dev: Gitpod
-
 ** Interactions
 *** Svelte - Svelte Kit
 - Svelte Kit exposes APIs
@@ -59,6 +58,34 @@
 - other references can be passed to the action-function , eg. for a dynamic process on the website without reload
   - in .svelte add: ~use:a-f{{<function-var> : <function-name> }}~
   - in action-function add: ~export const a-f = (form:... , {<function-var>}) => {}~
+** Debugging
+*** Difference debugging for Client side and server side
+- client side server can be debugged in browser dev tools
+- server side can be debugged in the server runtime environment
+- Example:
+  - console.log output can only be seen in the console of the respective runtime
+  - Client side functions will only log to Browser console
+  - SS like Api function will only log to "npm run dev" terminal
+
+*** CS
+- Set breakpoints in DevTools
+- watch vars in "scopes" tab
+
+*** SS
+- set ~debugger;~ stopping marks in code
+- run: ~node --inspect node_modules/.bin/svelte-kit dev~
+- attach debugger to process id (eg. in vscode)
+**** command shortcut
+add to package.json:
+- "debugger": "NODE_OPTIONS=\"--inspect\" svelte-kit dev"
+run:
+- npm run debugger
+**** technical background
+- node_modules/.bin/svelte-kit dev is the actual command that gets run when running npm run dev
+- this is defined in the scripts in package.json
+
+*** Source
+https://www.youtube.com/watch?v=ubeOpB9FlZE
 * Svelte
 Svelte compiles svelte files into pure javascript. Thus very little overhead and good performance on browserside.
 ** Files
@@ -150,8 +177,8 @@ console.log(res.json())
 - variable part with bracekts ~[uid].json.ts~
 - can be populated with ~params.~
 
-*** method override remove, put, etc
-- remove, etc dont exist as default form request types
+*** method override delete, put, etc
+- delete, etc dont exist as default form request types
 - when defining route in ts use "del" as http verb (delete is reserved in js)
 - define methodOverride in svelte.config.js
 ** Properties in Svelte
@@ -470,3 +497,13 @@ https://www.twilio.com/blog/all-you-need-to-know-svelte
 **** DONE Check if fastapi backend can accept form by passing it as a different argument
 - seems not be compatible with pydantic
 CLOSED: [2022-05-26 Do 16:17]
+
+** TODO POST/DEL/PUT not working
+*** Debug
+
+*** Problem Ideas
+**** uid in Path
+- uid in path sent to backend
+**** empty data in api.ts
+- no data can be seen when debugging
+**** requests method not translated in svelte
