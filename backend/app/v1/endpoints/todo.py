@@ -1,12 +1,10 @@
+from typing import Any, Dict, List, Union
 from fastapi import APIRouter, Body
 from fastapi.encoders import jsonable_encoder
-#from app.core.models.database import getTodos
 from app.core.models.todo import Todo
-from app.core.schemas.todo import TodoIn, TodoOut
+from app.core.schemas.todo import TodoIn, TodoOut, TodoDel
 
-
-
-todos = [Todo("aufräumen"), Todo("schlafen")]
+todos = [Todo("plant tree"), Todo("sleep")]
 
 router = APIRouter()
 
@@ -21,5 +19,8 @@ async def postTodo(todo_in: TodoIn):
     return TodoOut(**new_todo.as_dict())
 
 @router.delete("/", status_code=200, response_model=TodoOut, response_description="todo deleted")
-async def deleteTodo(todo_in: TodoIn):
-    pass
+async def deleteTodo(todo_del: TodoDel):
+    for todo in todos:
+        if (todo.uid == todo_del.uid):
+            deleted_todo = todos.pop(todos.index(todo))
+    return TodoOut(**deleted_todo.as_dict())
