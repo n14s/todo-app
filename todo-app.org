@@ -22,6 +22,18 @@
 - Svelte Kit requests data from Postgres
 - Prisma acts as a translator beween JS objects and SQL commands
 
+*** Dataflow/Commandflow
+
+| File/Function                  | Description                                   | Networking                        |
+|--------------------------------+-----------------------------------------------+-----------------------------------|
+| index.svelte/todo-item.svelte  | provide forms, retrieves backend data on load | Send POST/GET to Svelte inter-api |
+|--------------------------------+-----------------------------------------------+-----------------------------------|
+| *.ts                           | prepare fetch data, forward to api            | Receive POST/GET from .svelte     |
+| enhance, together with form.ts | stops usual, updates frontend only            |                                   |
+|--------------------------------+-----------------------------------------------+-----------------------------------|
+| (*.ts=>) _api.ts               | build fetch command                           | Send POST/GET/?/?/ to Backend     |
+
+
 * Generel Web Dev
 ** Dev Process
 [[id:b33d4592-6d82-4b38-93a0-d5abadfce1ba][Generell Dev Process documented here]]
